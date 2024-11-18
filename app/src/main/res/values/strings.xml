@@ -7,4 +7,5 @@
     <string name="person">Аккаунт</string>
     <string name="search_courses_text">Search courses...</string>
     <string name="BASE_URL">https://stepik.org/api/</string>
+
 </resources>

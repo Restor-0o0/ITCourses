@@ -8,8 +8,8 @@ object handleResponse {
         return APIResult.Error(Exception(error.message))
     }
     fun <T:Any> handleSuccess(response: Response<T>): APIResult<T>{
-        return response.body()?.let{
-            APIResult.Success<T>(it)
-        }?: handleError(response)
+        response.body()?.let{
+            return APIResult.Success(it)
+        }?: return handleError(response)
     }
 }

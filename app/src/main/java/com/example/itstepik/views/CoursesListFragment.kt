@@ -1,17 +1,22 @@
 package com.example.itstepik.views
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.itstepik.R
 import com.example.itstepik.data.ListItem
 import com.example.itstepik.databinding.FragmentCoursesListBinding
 import com.example.itstepik.viewmodel.CoursesViewModel
 import com.hannesdorfmann.adapterdelegates4.AdapterDelegate
 import com.hannesdorfmann.adapterdelegates4.ListDelegationAdapter
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 // TODO: Rename parameter arguments, choose names that match
@@ -39,13 +44,40 @@ class CoursesListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.loadCourses()
         val adapter = ListDelegationAdapter<List<ListItem>>(
             courseAdapterDelegate {  }
         )
+        binding.list.layoutManager = LinearLayoutManager(context)
         binding.list.adapter = adapter
+        binding.list.addOnScrollListener(object: RecyclerView.OnScrollListener(){
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if(!binding.list.canScrollVertically(1)){
+                    Log.e("SCROLLLLLL","load")
+                    viewModel.loadNextCourses()
+                }
+            }
+        })
 
 
-        viewModel
+        viewModel.coursesList.observe(viewLifecycleOwner) {it ->
+            (binding.list.adapter as ListDelegationAdapter<List<ListItem>>).notifyDataSetChanged()
+            lifecycleScope.launch {
+                if(it.isNotEmpty() && it != null){
+
+                        adapter.items = it
+                        (binding.list.adapter as ListDelegationAdapter<List<ListItem>>).notifyDataSetChanged()
+                    viewModel.coutCourses = adapter.itemCount
+
+                }
+                Log.e("DEBUUGG1", (binding.list.adapter as ListDelegationAdapter<List<ListItem>>).itemCount.toString())
+
+            }
+
+
+
+        }
     }
 
 }
