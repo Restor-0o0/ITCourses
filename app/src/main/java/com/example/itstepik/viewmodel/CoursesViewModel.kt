@@ -21,7 +21,7 @@ class CoursesViewModel(
     lateinit var showLoading: MutableLiveData<Boolean?>
 
 
-    fun loadCourses(tag:Int=1,order: String){
+    fun loadCourses(tag:Int=1,order: String? = null){
         viewModelScope.launch {
             showLoading.value = true
             showError.value = null
