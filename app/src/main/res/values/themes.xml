@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.ITStepik" parent="android:Theme.Material.Light.NoActionBar" >
+        <item name="colorPrimary">@color/items</item>
+        <item name="colorBackgroundFloating">@color/background</item>
+        <item name="android:textColor">@color/text</item>
+        <item name="android:textColorLink">@color/check</item>
+    </style>
+</resources>
