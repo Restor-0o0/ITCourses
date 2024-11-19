@@ -36,6 +36,7 @@ fun courseAdapterDelegate(itemClickedListener : (Course) -> Unit)  =
             binding.summary.text = item.summary
             binding.image.clipToOutline = true
             binding.ratingText.text = item.average.toString()
+
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 binding.date.text = ZonedDateTime.parse(item.create_date).dayOfMonth.toString() + " " + months.get(ZonedDateTime.parse(item.create_date).monthValue) + " " + ZonedDateTime.parse(item.create_date).year.toString()
             } else {

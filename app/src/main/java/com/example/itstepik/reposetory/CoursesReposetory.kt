@@ -6,6 +6,7 @@ import com.example.itstepik.StepikAPI
 import com.example.itstepik.data.Course
 import com.example.itstepik.data.Response.CoursesResponse
 import com.example.itstepik.data.Response.ReviewSummaryResponse
+import com.example.itstepik.data.Response.TagsResponse
 import com.example.itstepik.util.APIError
 import com.example.itstepik.util.APIResult
 import com.example.itstepik.util.CoursesOrder
@@ -23,6 +24,7 @@ class CoursesReposetory(
         private var page: Int = 1
         private var tag: Int = 1
         private var order: String? = null
+        private var parent: Int = 1
 
     override suspend fun getAllCourses(): APIResult<CoursesResponse> {
         tag = 1 // Teg IT
@@ -59,12 +61,34 @@ class CoursesReposetory(
         }
     }
 
+    override suspend fun getTagsByParent(parent: Int,page:Int): APIResult<TagsResponse> {
+        if (NetworkManager.isOnline(context)){
+            return try {
+                    val response: Response<TagsResponse> = this.api.tagGetByParentPage(parent,page)
+                    if (response.isSuccessful){
+                        handleResponse.handleSuccess(response)
+                    }
+                    else{
+                        handleResponse.handleError(response)
+                    }
+            }catch(e:Exception){
+                APIResult.Error(Exception(e.message))
+            }
+        }
+        else{
+            return APIResult.Error(Exception("Ошибка подклюения сети"))
+        }
+
+    }
+
+
     override fun setOrder(order: String): Boolean {
         val membs = CoursesOrder::class.memberProperties
         if(membs.any { it -> it.get(CoursesOrder()) == order }){
             this.order = order
             return true
         }
+        this.order = null
         return false
     }
 

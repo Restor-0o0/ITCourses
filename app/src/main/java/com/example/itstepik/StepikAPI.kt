@@ -18,7 +18,7 @@ interface StepikAPI {
         @Query("tag") tag: Int,
         @Query("page") page:Int,
         @Query("order") order:String) : Response<CoursesResponse>
-    @GET("courses/")
+    @GET("tags/")
     suspend fun tagGetByParentPage(
         @Query("parent") parent: Int,
         @Query("page") page:Int) : Response<TagsResponse>

@@ -32,6 +32,7 @@ private const val ARG_PARAM2 = "param2"
 class CoursesListFragment : Fragment() {
     lateinit var binding : FragmentCoursesListBinding
     val viewModel by viewModel<CoursesViewModel>()
+    val filter: FilterDialogFragment = FilterDialogFragment()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,6 +45,7 @@ class CoursesListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         viewModel.loadCourses()
         val adapter = ListDelegationAdapter<List<ListItem>>(
             courseAdapterDelegate {  }
@@ -74,10 +76,12 @@ class CoursesListFragment : Fragment() {
                 Log.e("DEBUUGG1", (binding.list.adapter as ListDelegationAdapter<List<ListItem>>).itemCount.toString())
 
             }
-
-
-
         }
+        binding.filterButton.setOnClickListener{
+            filter.show(parentFragmentManager,"FILTER")
+        }
+        viewModel.loadTagsByParent()
     }
+
 
 }
