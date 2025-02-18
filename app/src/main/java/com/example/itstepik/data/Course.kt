@@ -17,5 +17,7 @@ data class Course(
     val display_price: String,
     @SerializedName("create_date")
     val create_date: String,
+    @SerializedName("canonical_url")
+    val canonical_url: String,
     var average: Double = 1.0
 ) :ListItem

@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.content.ContextCompat
+import androidx.core.view.WindowCompat
 import com.example.itstepik.R
 
 class MainActivity : AppCompatActivity() {
@@ -25,12 +26,18 @@ class MainActivity : AppCompatActivity() {
             WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
             WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
         );
+        //actionBar?.hide()
         supportActionBar?.hide()
-        window.navigationBarColor = ContextCompat.getColor(this,R.color.menu)
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.content_fragment,CoursesListFragment::class.java,savedInstanceState)
-            .replace(R.id.menu_fragment,MenuFragment::class.java,savedInstanceState)
-            .commit()
+
+        if(savedInstanceState == null){
+
+            window.navigationBarColor = ContextCompat.getColor(this,R.color.menu)
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.content_fragment,CoursesListFragment::class.java,savedInstanceState)
+                .replace(R.id.menu_fragment,MenuFragment::class.java,savedInstanceState)
+                .commit()
+
+        }
 
     }
 }

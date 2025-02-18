@@ -6,4 +6,10 @@
         <item name="android:textColor">@color/text</item>
         <item name="android:textColorLink">@color/check</item>
     </style>
+
+    <style name="CustomRatingBar" parent="Widget.AppCompat.RatingBar">
+        <item name="android:progressDrawable">@drawable/custom_rating</item>
+        <item name="android:minHeight">32dp</item> <!-- Убедитесь, что высота меньше ширины -->
+        <item name="android:maxHeight">32dp</item>
+    </style>
 </resources>

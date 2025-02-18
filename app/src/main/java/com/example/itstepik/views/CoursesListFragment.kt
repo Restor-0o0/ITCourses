@@ -78,7 +78,7 @@ class CoursesListFragment : Fragment() {
             }
         }
         binding.filterButton.setOnClickListener{
-            filter.show(parentFragmentManager,"FILTER")
+            filter.show(childFragmentManager,"FILTER")
         }
         viewModel.loadTagsByParent()
     }

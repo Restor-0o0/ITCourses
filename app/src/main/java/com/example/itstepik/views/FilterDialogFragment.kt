@@ -8,19 +8,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.itstepik.databinding.FilterDialogBinding
 import com.example.itstepik.viewmodel.CoursesViewModel
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexboxLayoutManager
-import com.google.android.flexbox.JustifyContent
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FilterDialogFragment: DialogFragment(),OnTagClickListener {
 
     lateinit var binding:FilterDialogBinding
-    val viewModel by viewModel<CoursesViewModel>()
+    val viewModel by viewModel<CoursesViewModel>(ownerProducer = {requireParentFragment()}    )
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return super.onCreateDialog(savedInstanceState)
     }
@@ -45,7 +44,7 @@ class FilterDialogFragment: DialogFragment(),OnTagClickListener {
         var layoutManager = FlexboxLayoutManager(context)
         layoutManager.setFlexDirection(FlexDirection.ROW)
         //layoutManager.setJustifyContent(JustifyContent.FLEX_END)
-        binding.tags.layoutManager = LinearLayoutManager(context)
+        binding.tags.layoutManager = layoutManager
         binding.all.setOnClickListener{
 
         }
@@ -67,7 +66,7 @@ class FilterDialogFragment: DialogFragment(),OnTagClickListener {
         binding.frame.setOnClickListener{
             dialog!!.dismiss()
         }
-        val adapter = TagsAdapter(func =this)
+        val adapter = TagsAdapter( func =this)
         viewModel.tagsList.observe(viewLifecycleOwner){ it ->
             lifecycleScope.launch {
                 if(it.isNotEmpty() && it != null){
@@ -76,6 +75,7 @@ class FilterDialogFragment: DialogFragment(),OnTagClickListener {
                     Log.e("TAGGGGSSS",adapter.itemCount.toString())
                     adapter.notifyDataSetChanged()
                 }
+                cancel()
             }
         }
         binding.tags.adapter = adapter

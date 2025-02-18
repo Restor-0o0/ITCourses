@@ -7,4 +7,5 @@ data class Tag(
     val id: Int,
     @SerializedName("title")
     val title: String,
+    var active:Boolean = false
 )

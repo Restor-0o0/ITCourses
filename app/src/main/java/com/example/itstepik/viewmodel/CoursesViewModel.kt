@@ -56,6 +56,7 @@ class CoursesViewModel(
                         cancel()
                     }
                     is APIResult.Error->{
+                        Log.e("TAGGGGSSS_______","")
                         showError.value = result.message
                         showLoading.value = false
                         cancel()
@@ -83,7 +84,7 @@ class CoursesViewModel(
                         Log.e("size",_coursesList.value?.size.toString())
                         for(item in result.successData.courses){
                             Log.e("ADDED",item.id.toString())
-                            _coursesList.value?.plus(item)
+                            _coursesList.value = _coursesList.value!! + item
                             Log.e("ADDED",item.id.toString()+"___")
                             loadAverage(item.id)
                         }
